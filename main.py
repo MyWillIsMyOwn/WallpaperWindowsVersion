@@ -3,7 +3,7 @@ from tkinter.filedialog import askopenfilename
 
 
 
-
+#opening a folder
 def openfolder():
     filepath = askopenfilename()
     return filepath
