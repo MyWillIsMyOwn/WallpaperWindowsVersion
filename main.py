@@ -3,12 +3,15 @@ from tkinter.filedialog import askopenfilename
 
 
 
-#opening a folder
-def openfolder():
+#getting file path
+def get_path():
     filepath = askopenfilename()
     return filepath
 
-
+#setting wallpaper
+def set_wallpaper():
+    path = get_path()
+    print(path)
 
 #displaying buttons
 def display(choice):
@@ -42,9 +45,9 @@ drop_down_menu = OptionMenu(window, option, *options, command=display)
 drop_down_menu.pack()
 
 #creating buttons
-browser = Button(window, text='browser',command=openfolder)
+browser = Button(window, text='browser',command=set_wallpaper)
 browser.pack()
-choose_a_folder = Button(window, text='choose a folder',command=openfolder)
+choose_a_folder = Button(window, text='choose a folder',command=get_path)
 
 
 
