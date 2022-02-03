@@ -4,33 +4,46 @@ from tkinter import filedialog
 from tkinter.filedialog import askopenfilename
 from os import listdir
 from os.path import isfile
+import random
 import ctypes
 import re
-
-
-#choosing a directory
-def choose_folder():
-    listofphotos = []
-    path = filedialog.askdirectory()
-    for file in listdir(path):
-        if re.search('.jpeg{1}|.jpg{1}',file):
-            listofphotos.append(file)
-    return listofphotos
-
-def set_random_wallpaper():
-    print(choose_folder())
-
 
 #getting file path
 def get_path():
     filepath = askopenfilename()
     return filepath
 
-#setting single wallpaper
+#checking file format
+def check_if_correct_file(file):
+    if re.search('.jpeg{1}|.jpg{1}', file):
+        return file
+
+#choosing a directory
+def choose_folder():
+    listofphotos = []
+    path = filedialog.askdirectory()
+    for file in listdir(path):
+        if check_if_correct_file(file):
+            listofphotos.append(file)
+    return listofphotos
+
+#setting wallpaper
+def pick_photo(path):
+    ctypes.windll.user32.SystemParametersInfoW(20, 0, path , 0)
+
+
+#choosing random photo
+def set_random_wallpaper():
+    photo = random.choice(choose_folder())
+    print(photo)
+    pick_photo(photo)
+
+#choosing single photo
 def set_wallpaper():
     path = get_path()
-    if re.search('.jpeg{1}|.jpg{1}',path):
-        ctypes.windll.user32.SystemParametersInfoW(20, 0, path , 0)
+    if check_if_correct_file(path):
+        pick_photo(path)
+
 
 #calling a button
 def call(choice):
