@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter.filedialog import askopenfilename
 import ctypes
+import re
 
 
 
@@ -12,7 +13,7 @@ def get_path():
 #setting wallpaper
 def set_wallpaper():
     path = get_path()
-    if(path.count('.jpeg'))==1:
+    if re.search('.jpeg{1}',path):
         ctypes.windll.user32.SystemParametersInfoW(20, 0, path , 0)
 
 #calling a button
