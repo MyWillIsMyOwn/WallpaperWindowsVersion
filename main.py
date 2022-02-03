@@ -25,7 +25,6 @@ def choose_folder():
     for file in listdir(path):
         if check_if_correct_file(file):
             listofphotos.append(path+'//'+file)
-    print(listofphotos)
     return listofphotos
 
 #setting wallpaper
@@ -36,7 +35,6 @@ def pick_photo(path):
 #choosing random photo
 def set_random_wallpaper():
     photo = random.choice(choose_folder())
-    print(photo)
     pick_photo(photo)
 
 #choosing single photo
