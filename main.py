@@ -24,7 +24,8 @@ def choose_folder():
     path = filedialog.askdirectory()
     for file in listdir(path):
         if check_if_correct_file(file):
-            listofphotos.append(file)
+            listofphotos.append(path+'//'+file)
+    print(listofphotos)
     return listofphotos
 
 #setting wallpaper
