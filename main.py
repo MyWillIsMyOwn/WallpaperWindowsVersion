@@ -10,20 +10,26 @@ import re
 
 #choosing a directory
 def choose_folder():
+    listofphotos = []
     path = filedialog.askdirectory()
     for file in listdir(path):
-        if re.search('.jpeg{1}',file):
-            print(file)
+        if re.search('.jpeg{1}|.jpg{1}',file):
+            listofphotos.append(file)
+    return listofphotos
+
+def set_random_wallpaper():
+    print(choose_folder())
+
 
 #getting file path
 def get_path():
     filepath = askopenfilename()
     return filepath
 
-#setting wallpaper
+#setting single wallpaper
 def set_wallpaper():
     path = get_path()
-    if re.search('.jpeg{1}',path):
+    if re.search('.jpeg{1}|.jpg{1}',path):
         ctypes.windll.user32.SystemParametersInfoW(20, 0, path , 0)
 
 #calling a button
@@ -58,6 +64,6 @@ drop_down_menu.pack()
 #creating buttons
 browser_button = Button(window, text='browser',command=set_wallpaper)
 browser_button.pack()
-choose_a_folder_button = Button(window, text='choose a folder',command=choose_folder)
+choose_a_folder_button = Button(window, text='choose a folder',command=set_random_wallpaper)
 
 window.mainloop()
