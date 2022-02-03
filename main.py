@@ -1,9 +1,19 @@
+import os
 from tkinter import *
+from tkinter import filedialog
 from tkinter.filedialog import askopenfilename
+from os import listdir
+from os.path import isfile
 import ctypes
 import re
 
 
+#choosing a directory
+def choose_folder():
+    path = filedialog.askdirectory()
+    for file in listdir(path):
+        if re.search('.jpeg{1}',file):
+            print(file)
 
 #getting file path
 def get_path():
@@ -38,7 +48,7 @@ window.title('Wallpaper')
 window.geometry('200x200')
 window.resizable(0,0)
 
-#drop down menu settings
+#drop down menu settings for buttons
 options = ['choose a photo', 'choose a folder']
 option = StringVar(window)
 option.set(options[0])
@@ -48,6 +58,6 @@ drop_down_menu.pack()
 #creating buttons
 browser_button = Button(window, text='browser',command=set_wallpaper)
 browser_button.pack()
-choose_a_folder_button = Button(window, text='choose a folder',command=get_path)
+choose_a_folder_button = Button(window, text='choose a folder',command=choose_folder)
 
 window.mainloop()
