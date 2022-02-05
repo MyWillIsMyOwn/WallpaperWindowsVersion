@@ -68,19 +68,26 @@ def call(choice):
     if choice == 'choose a folder':
         display_choose_a_folder_button()
 
+#period setting
 def period():
     period = choosen_time.get()
     match period:
         case '5s':
             return 5
+            swap(True)
         case '15s':
             return 15
+            swap(True)
         case '30s':
             return 30
+            swap(True)
         case '1min':
             return 60
+            swap(True)
         case '15min':
             return 900
+            swap(True)
+    swap(False)
 
 #displaying button
 def display_browser_button():
