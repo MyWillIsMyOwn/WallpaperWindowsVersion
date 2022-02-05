@@ -3,10 +3,11 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter.filedialog import askopenfilename
 from os import listdir
-from os.path import isfile
 import random
 import ctypes
 import re
+from threading import Thread
+import time
 
 #getting file path
 def get_path():
@@ -20,8 +21,10 @@ def check_if_correct_file(file):
 
 #choosing a directory
 def choose_folder():
+    return filedialog.askdirectory()
+
+def path(path):
     listofphotos = []
-    path = filedialog.askdirectory()
     for file in listdir(path):
         if check_if_correct_file(file):
             listofphotos.append(path+'//'+file)
@@ -31,16 +34,29 @@ def choose_folder():
 def pick_photo(path):
     ctypes.windll.user32.SystemParametersInfoW(20, 0, path , 0)
 
+def swap(swap):
+    global flag
+    flag = swap
 
 #choosing random photo
 def set_random_wallpaper():
-    photo = random.choice(choose_folder())
-    pick_photo(photo)
+    folder = choose_folder()
+    swap(False)
+    def thread():
+        while True:
+            if flag:
+                break
+            set = random.choice(path(folder))
+            pick_photo(set)
+            time.sleep(period())
+    Thread(target=thread).start()
+
 
 #choosing single photo
 def set_wallpaper():
     path = get_path()
     if check_if_correct_file(path):
+        swap(True)
         pick_photo(path)
 
 
@@ -52,13 +68,29 @@ def call(choice):
     if choice == 'choose a folder':
         display_choose_a_folder_button()
 
+def period():
+    period = choosen_time.get()
+    match period:
+        case '5s':
+            return 5
+        case '15s':
+            return 15
+        case '30s':
+            return 30
+        case '1min':
+            return 60
+        case '15min':
+            return 900
+
 #displaying button
 def display_browser_button():
     choose_a_folder_button.pack_forget()
+    drop_down_times.pack_forget()
     browser_button.pack()
 def display_choose_a_folder_button():
     browser_button.pack_forget()
     choose_a_folder_button.pack()
+    drop_down_times.pack()
 
 #window settings
 window = Tk()
@@ -73,9 +105,16 @@ option.set(options[0])
 drop_down_menu = OptionMenu(window, option, *options, command=call)
 drop_down_menu.pack()
 
+#drop down menu for timer
+times = ['5s','15s','30s','1min','15min']
+choosen_time = StringVar(window)
+choosen_time.set(times[0])
+drop_down_times = OptionMenu(window, choosen_time, *times)
+
 #creating buttons
 browser_button = Button(window, text='browser',command=set_wallpaper)
 browser_button.pack()
-choose_a_folder_button = Button(window, text='choose a folder',command=set_random_wallpaper)
+choose_a_folder_button = Button(window, text='browser',command=set_random_wallpaper)
 
 window.mainloop()
+
