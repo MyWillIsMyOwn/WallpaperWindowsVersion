@@ -46,7 +46,6 @@ def set_random_wallpaper():
         while True:
             if flag:
                 break
-            global set
             set = random.choice(path(folder))
             pick_photo(set)
             time.sleep(period())
@@ -88,7 +87,6 @@ def period():
         case '15min':
             return 900
             swap(True)
-    pick_photo(set)
     swap(False)
 
 #displaying button
