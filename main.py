@@ -48,7 +48,14 @@ def set_random_wallpaper():
                 break
             set = random.choice(path(folder))
             pick_photo(set)
-            time.sleep(period())
+            check_if_period_changed = period()
+            counter = 0
+            for i in range(period()):
+                time.sleep(1)
+                if check_if_period_changed!=period():
+                    counter += 1
+                    if counter>1:
+                        break
     Thread(target=thread).start()
 
 
